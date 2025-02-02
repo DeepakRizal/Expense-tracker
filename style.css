@@ -104,3 +104,24 @@ input {
 .add-budget-box h3 {
   margin-top: 20px;
 }
+.expense-list {
+  min-width: 50%;
+  margin: 20px 0;
+}
+.expense {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  padding: 5px 10px;
+  background-color: #2ea44f;
+  width: 100%;
+  margin: 5px 0;
+}
+
+.your-expenses {
+  margin-top: 20px;
+}
+.no-expense {
+  text-align: center;
+}
