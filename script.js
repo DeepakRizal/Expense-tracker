@@ -4,6 +4,9 @@ const expenseAmount = document.getElementById("amount");
 const expenseDate = document.getElementById("date");
 const submitButton = document.querySelector(".submit-expense");
 const expenseList = document.querySelector(".expense-list");
+const addBudgetButton = document.querySelector(".add-budget-button");
+const totalBudget = document.querySelector(".total-budget");
+const budgetInput = document.querySelector(".budget-input");
 
 let expense = {
   description: "",
@@ -13,7 +16,11 @@ let expense = {
 
 const expenses = [];
 
-functions;
+//functions;
+
+if (expenses.length === 0) {
+  expenseList.innerHTML = "<p class='no-expense'>No expenses to show</p>";
+}
 
 function inputValue(val, identifier) {
   expense = { ...expense, [identifier]: val };
@@ -49,6 +56,12 @@ submitButton.addEventListener("click", (e) => {
   ) {
     return alert("Please enter the expense: Description,Date and Amount");
   }
+
+  const noExpenseText = document.querySelector(".no-expense");
+  if (noExpenseText) {
+    noExpenseText.remove();
+  }
+
   expenses.push(expense);
 
   let listItem;
@@ -68,4 +81,12 @@ submitButton.addEventListener("click", (e) => {
   expenseDescription.value = "";
   expenseAmount.value = "";
   expenseDate.value = "";
+});
+
+addBudgetButton.addEventListener("click", () => {
+  if (budgetInput.value.trim() === "") {
+    return alert("please enter your budget");
+  }
+  totalBudget.textContent = budgetInput.value;
+  budgetInput.value = "";
 });

@@ -107,6 +107,7 @@ input {
 .expense-list {
   min-width: 50%;
   margin: 20px 0;
+  overflow-y: auto;
 }
 .expense {
   display: flex;
@@ -124,4 +125,21 @@ input {
 }
 .no-expense {
   text-align: center;
+}
+.buttons {
+  display: flex;
+  gap: 5px;
+}
+
+.buttons button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4px 10px;
+  font-family: -apple-system, BlinkMacSystemFont, "Roboto", sans-serif;
+  border-radius: 6px;
+  color: #3d3d3d;
+  background: #fff;
+  border: none;
+  box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.1);
 }
