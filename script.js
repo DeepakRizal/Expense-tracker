@@ -7,6 +7,7 @@ const expenseList = document.querySelector(".expense-list");
 const addBudgetButton = document.querySelector(".add-budget-button");
 const totalBudget = document.querySelector(".total-budget");
 const budgetInput = document.querySelector(".budget-input");
+const deleteButton = document.querySelector(".delete");
 
 let expense = {
   description: "",
@@ -89,4 +90,44 @@ addBudgetButton.addEventListener("click", () => {
   }
   totalBudget.textContent = budgetInput.value;
   budgetInput.value = "";
+});
+
+expenseList.addEventListener("click", (e) => {
+  const listItem = e.target.closest(".expense");
+
+  if (e.target.classList.contains("delete")) {
+    if (listItem) {
+      listItem.remove();
+    }
+  }
+
+  // Handle Edit Button Click
+  if (e.target.classList.contains("edit")) {
+    const expenseText = listItem.querySelector(".expense-text");
+    const inputField = document.createElement("input");
+    inputField.type = "text";
+    inputField.value = expenseText.textContent.replace("Rs. ", "").trim();
+    inputField.classList.add("edit-input");
+    const saveButton = document.createElement("button");
+    saveButton.textContent = "save";
+    saveButton.classList.add("save");
+
+    expenseText.replaceWith(inputField);
+    e.target.replaceWith(saveButton);
+  }
+
+  // Handle Save Button Click
+  if (e.target.classList.contains("save")) {
+    const inputField = listItem.querySelector(".edit-input");
+    const newExpenseText = document.createElement("p");
+    newExpenseText.textContent = `Rs. ${inputField.value}`;
+    newExpenseText.classList.add("expense-text");
+
+    const editButton = document.createElement("button");
+    editButton.textContent = "Edit";
+    editButton.classList.add("edit");
+
+    inputField.replaceWith(newExpenseText);
+    e.target.replaceWith(editButton);
+  }
 });

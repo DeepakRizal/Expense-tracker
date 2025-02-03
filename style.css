@@ -118,6 +118,7 @@ input {
   background-color: #2ea44f;
   width: 100%;
   margin: 5px 0;
+  color: white;
 }
 
 .your-expenses {
@@ -142,4 +143,5 @@ input {
   background: #fff;
   border: none;
   box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 }
