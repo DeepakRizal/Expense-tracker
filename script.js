@@ -8,6 +8,10 @@ const addBudgetButton = document.querySelector(".add-budget-button");
 const totalBudget = document.querySelector(".total-budget");
 const budgetInput = document.querySelector(".budget-input");
 const deleteButton = document.querySelector(".delete");
+const reset = document.querySelector(".reset");
+const resetModal = document.getElementById("resetModal");
+const cancelBtn = document.getElementById("cancelBtn");
+const okBtn = document.getElementById("okBtn");
 
 let expense = {
   description: "",
@@ -133,5 +137,25 @@ expenseList.addEventListener("click", (e) => {
 
     inputField.replaceWith(newExpenseText);
     e.target.replaceWith(editButton);
+  }
+});
+
+reset.addEventListener("click", () => {
+  console.log("clicked!");
+  resetModal.style.display = "flex";
+});
+
+cancelBtn.addEventListener("click", () => {
+  resetModal.style.display = "none";
+});
+
+okBtn.addEventListener("click", () => {
+  resetModal.style.display = "none";
+  // reset logic
+});
+
+window.addEventListener("click", (e) => {
+  if (e.target === resetModal) {
+    resetModal.style.display = "none";
   }
 });
