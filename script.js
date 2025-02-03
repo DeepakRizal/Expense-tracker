@@ -70,11 +70,19 @@ submitButton.addEventListener("click", (e) => {
     listItem = createElement("li", "expense");
     const expenseText = createElement("p", "expense-text");
     expenseText.textContent = `Rs. ${expense.amount}`;
+    const dateText = createElement("p", "date-text", expense.date);
+    const descriptionText = createElement(
+      "p",
+      "description-text",
+      expense.description
+    );
+    const expenseDetails = createElement("div", "expense-details");
+    expenseDetails.append(expenseText, descriptionText, dateText);
     const buttons = createElement("div", "buttons");
     const editButton = createElement("button", "edit", "Edit");
     const deleteButton = createElement("button", "delete", "Delete");
     buttons.append(editButton, deleteButton);
-    listItem.append(expenseText, buttons);
+    listItem.append(expenseDetails, buttons);
   });
 
   expenseList.appendChild(listItem);

@@ -110,10 +110,8 @@ input {
   overflow-y: auto;
 }
 .expense {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 30px;
+  display: grid;
+  grid-template-columns: 6fr 1fr;
   padding: 5px 10px;
   background-color: #2ea44f;
   width: 100%;
@@ -130,6 +128,7 @@ input {
 .buttons {
   display: flex;
   gap: 5px;
+  align-self: right;
 }
 
 .buttons button {
@@ -144,4 +143,44 @@ input {
   border: none;
   box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.1);
   cursor: pointer;
+}
+
+.date-text {
+  font-size: 12px;
+
+  padding: 2px 3px;
+  margin-left: 10px;
+  font-style: italic;
+}
+
+.expense-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.expense-text {
+  margin-left: 50px;
+}
+.date-text,
+.description-text {
+  justify-self: center;
+}
+
+.total-expense {
+  margin-bottom: 30px;
+}
+
+.reset {
+  padding: 10px 40px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: red;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
+  background: #e62222;
+  font-size: 16px;
+  color: white;
 }
