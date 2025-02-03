@@ -104,13 +104,11 @@ expenseList.addEventListener("click", (e) => {
   // Handle Edit Button Click
   if (e.target.classList.contains("edit")) {
     const expenseText = listItem.querySelector(".expense-text");
-    const inputField = document.createElement("input");
+    const inputField = createElement("input");
     inputField.type = "text";
     inputField.value = expenseText.textContent.replace("Rs. ", "").trim();
     inputField.classList.add("edit-input");
-    const saveButton = document.createElement("button");
-    saveButton.textContent = "save";
-    saveButton.classList.add("save");
+    const saveButton = createElement("button", "save", "Save");
 
     expenseText.replaceWith(inputField);
     e.target.replaceWith(saveButton);
@@ -119,13 +117,11 @@ expenseList.addEventListener("click", (e) => {
   // Handle Save Button Click
   if (e.target.classList.contains("save")) {
     const inputField = listItem.querySelector(".edit-input");
-    const newExpenseText = document.createElement("p");
+    const newExpenseText = createElement("p", "expense-text");
     newExpenseText.textContent = `Rs. ${inputField.value}`;
     newExpenseText.classList.add("expense-text");
 
-    const editButton = document.createElement("button");
-    editButton.textContent = "Edit";
-    editButton.classList.add("edit");
+    const editButton = createElement("button", "edit", "Edit");
 
     inputField.replaceWith(newExpenseText);
     e.target.replaceWith(editButton);
