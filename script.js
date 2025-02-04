@@ -171,8 +171,6 @@ expenseList.addEventListener("click", (e) => {
     appData.expenses = appData.expenses.filter(
       (expense) => expense.id !== Number(listItem.id)
     );
-    console.log(appData.expenses);
-    console.log(listItem.id);
     localStorage.setItem("appData", JSON.stringify(appData));
     listItems(appData.expenses);
     totalExpenseElement.textContent = calculateTotalExpense();
@@ -198,6 +196,16 @@ expenseList.addEventListener("click", (e) => {
     const newExpenseText = createElement("p", "expense-text");
     newExpenseText.textContent = `Rs. ${inputField.value}`;
     newExpenseText.classList.add("expense-text");
+    appData.expenses = appData.expenses.map((expense) =>
+      expense.id === Number(listItem.id)
+        ? { ...expense, amount: inputField.value }
+        : expense
+    );
+
+    localStorage.setItem("appData", JSON.stringify(appData));
+    console.log(appData);
+    totalExpenseElement.textContent = calculateTotalExpense();
+    remainingBudget.textContent = calculateRemainingBudget();
 
     const editButton = createElement("button", "edit", "Edit");
 
