@@ -41,7 +41,8 @@ if (storedData) {
 
 //functions;
 
-if (expenses.length === 0) {
+console.log(appData.expenses.length);
+if (appData.expenses.length === 0) {
   expenseList.innerHTML = "<p class='no-expense'>No expenses to show</p>";
 }
 
@@ -73,7 +74,6 @@ function calculateTotalExpense() {
 }
 
 function calculateRemainingBudget() {
-  console.log(appData.budjet);
   return parseInt(appData.budjet - calculateTotalExpense());
 }
 
@@ -107,7 +107,9 @@ function listItems(items) {
   expenseList.append(...listItems);
 }
 
-listItems(appData.expenses);
+if (appData.expenses.length > 0) {
+  listItems(appData.expenses);
+}
 
 updateBudgetSummary();
 
