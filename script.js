@@ -77,7 +77,10 @@ function calculateRemainingBudget() {
   return parseInt(appData.budjet - calculateTotalExpense());
 }
 
-console.log(calculateRemainingBudget());
+function updateBudgetSummary() {
+  totalExpenseElement.textContent = calculateTotalExpense();
+  remainingBudget.textContent = calculateRemainingBudget();
+}
 
 function listItems(items) {
   let listItems = items.map((expense) => {
@@ -106,8 +109,7 @@ function listItems(items) {
 
 listItems(appData.expenses);
 
-totalExpenseElement.textContent = calculateTotalExpense();
-remainingBudget.textContent = calculateRemainingBudget();
+updateBudgetSummary();
 
 expenseDescription.addEventListener("change", valueHandler);
 expenseAmount.addEventListener("change", valueHandler);
@@ -143,8 +145,7 @@ submitButton.addEventListener("click", (e) => {
 
   listItems(newExpenses);
 
-  totalExpenseElement.textContent = calculateTotalExpense();
-  remainingBudget.textContent = calculateRemainingBudget();
+  updateBudgetSummary();
   expenseDescription.value = "";
   expenseAmount.value = "";
   expenseDate.value = "";
@@ -173,8 +174,7 @@ expenseList.addEventListener("click", (e) => {
     );
     localStorage.setItem("appData", JSON.stringify(appData));
     listItems(appData.expenses);
-    totalExpenseElement.textContent = calculateTotalExpense();
-    remainingBudget.textContent = calculateRemainingBudget();
+    updateBudgetSummary();
   }
 
   // Handle Edit Button Click
@@ -204,8 +204,7 @@ expenseList.addEventListener("click", (e) => {
 
     localStorage.setItem("appData", JSON.stringify(appData));
     console.log(appData);
-    totalExpenseElement.textContent = calculateTotalExpense();
-    remainingBudget.textContent = calculateRemainingBudget();
+    updateBudgetSummary();
 
     const editButton = createElement("button", "edit", "Edit");
 
