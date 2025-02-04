@@ -101,8 +101,8 @@ input {
   justify-content: center;
 }
 
-.add-budget-box h3 {
-  margin-top: 20px;
+.add-budget {
+  margin-bottom: 20px;
 }
 .expense-list {
   min-width: 50%;
@@ -166,7 +166,7 @@ input {
   justify-self: center;
 }
 
-.total-expense {
+.total-expense-heading {
   margin-bottom: 30px;
 }
 

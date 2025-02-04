@@ -12,14 +12,32 @@ const reset = document.querySelector(".reset");
 const resetModal = document.getElementById("resetModal");
 const cancelBtn = document.getElementById("cancelBtn");
 const okBtn = document.getElementById("okBtn");
+const totalExpenseElement = document.querySelector(".total-expense");
+const remainingBudget = document.querySelector(".remaining-budget");
 
 let expense = {
+  id: "",
   description: "",
   amount: "",
   date: "",
 };
 
+let totalExpense;
+
 const expenses = [];
+
+let appData = {
+  budjet: "",
+  totalExpense: "",
+  expenses,
+};
+
+const storedData = localStorage.getItem("appData");
+
+if (storedData) {
+  appData = JSON.parse(storedData);
+  totalBudget.textContent = appData.budjet;
+}
 
 //functions;
 
@@ -28,7 +46,7 @@ if (expenses.length === 0) {
 }
 
 function inputValue(val, identifier) {
-  expense = { ...expense, [identifier]: val };
+  expense = { ...expense, [identifier]: val, id: Date.now() };
 }
 
 function valueHandler(e) {
@@ -47,31 +65,24 @@ function createElement(elementName, className, textContent) {
   return element;
 }
 
-expenseDescription.addEventListener("change", valueHandler);
-expenseAmount.addEventListener("change", valueHandler);
-expenseDate.addEventListener("change", valueHandler);
+function calculateTotalExpense() {
+  return appData.expenses.reduce((acc, cur) => {
+    let number = parseInt(cur.amount);
+    return (acc += number);
+  }, 0);
+}
 
-submitButton.addEventListener("click", (e) => {
-  e.preventDefault();
+function calculateRemainingBudget() {
+  console.log(appData.budjet);
+  return parseInt(appData.budjet - calculateTotalExpense());
+}
 
-  if (
-    expense.description.trim() === "" ||
-    expense.amount.trim() === "" ||
-    expense.date === ""
-  ) {
-    return alert("Please enter the expense: Description,Date and Amount");
-  }
+console.log(calculateRemainingBudget());
 
-  const noExpenseText = document.querySelector(".no-expense");
-  if (noExpenseText) {
-    noExpenseText.remove();
-  }
-
-  expenses.push(expense);
-
-  let listItem;
-  expenses.forEach((expense) => {
-    listItem = createElement("li", "expense");
+function listItems(items) {
+  let listItems = items.map((expense) => {
+    let listItem = createElement("li", "expense");
+    listItem.id = expense.id;
     const expenseText = createElement("p", "expense-text");
     expenseText.textContent = `Rs. ${expense.amount}`;
     const dateText = createElement("p", "date-text", expense.date);
@@ -87,10 +98,53 @@ submitButton.addEventListener("click", (e) => {
     const deleteButton = createElement("button", "delete", "Delete");
     buttons.append(editButton, deleteButton);
     listItem.append(expenseDetails, buttons);
+    return listItem;
   });
+  expenseList.innerHTML = "";
+  expenseList.append(...listItems);
+}
 
-  expenseList.appendChild(listItem);
+listItems(appData.expenses);
 
+totalExpenseElement.textContent = calculateTotalExpense();
+remainingBudget.textContent = calculateRemainingBudget();
+
+expenseDescription.addEventListener("change", valueHandler);
+expenseAmount.addEventListener("change", valueHandler);
+expenseDate.addEventListener("change", valueHandler);
+
+//submit logic
+submitButton.addEventListener("click", (e) => {
+  e.preventDefault();
+  if (!appData.budjet || totalBudget.textContent === "0") {
+    return alert("Please set a budget before adding expenses.");
+  }
+
+  if (
+    expense.description.trim() === "" ||
+    expense.amount.trim() === "" ||
+    expense.date === ""
+  ) {
+    return alert("Please enter the expense: Description,Date and Amount");
+  }
+
+  const noExpenseText = document.querySelector(".no-expense");
+  if (noExpenseText) {
+    noExpenseText.remove();
+  }
+
+  appData.expenses.push(expense);
+
+  localStorage.setItem("appData", JSON.stringify(appData));
+
+  const expensesData = localStorage.getItem("appData");
+
+  const { expenses: newExpenses } = JSON.parse(expensesData);
+
+  listItems(newExpenses);
+
+  totalExpenseElement.textContent = calculateTotalExpense();
+  remainingBudget.textContent = calculateRemainingBudget();
   expenseDescription.value = "";
   expenseAmount.value = "";
   expenseDate.value = "";
@@ -100,7 +154,13 @@ addBudgetButton.addEventListener("click", () => {
   if (budgetInput.value.trim() === "") {
     return alert("please enter your budget");
   }
-  totalBudget.textContent = budgetInput.value;
+
+  appData = {
+    ...appData,
+    budjet: budgetInput.value,
+  };
+  localStorage.setItem("appData", JSON.stringify(appData));
+  totalBudget.textContent = appData.budjet;
   budgetInput.value = "";
 });
 
@@ -108,9 +168,15 @@ expenseList.addEventListener("click", (e) => {
   const listItem = e.target.closest(".expense");
 
   if (e.target.classList.contains("delete")) {
-    if (listItem) {
-      listItem.remove();
-    }
+    appData.expenses = appData.expenses.filter(
+      (expense) => expense.id !== Number(listItem.id)
+    );
+    console.log(appData.expenses);
+    console.log(listItem.id);
+    localStorage.setItem("appData", JSON.stringify(appData));
+    listItems(appData.expenses);
+    totalExpenseElement.textContent = calculateTotalExpense();
+    remainingBudget.textContent = calculateRemainingBudget();
   }
 
   // Handle Edit Button Click
@@ -141,7 +207,6 @@ expenseList.addEventListener("click", (e) => {
 });
 
 reset.addEventListener("click", () => {
-  console.log("clicked!");
   resetModal.style.display = "flex";
 });
 
@@ -150,6 +215,8 @@ cancelBtn.addEventListener("click", () => {
 });
 
 okBtn.addEventListener("click", () => {
+  localStorage.removeItem("appData");
+  window.location.reload();
   resetModal.style.display = "none";
   // reset logic
 });
